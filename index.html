@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결투 신청</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(255, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .button {
+            font-size: 28px;
+            background-color: #FF1A66;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .label {
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* 기본 상태 */
+             .letter {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 600px; /* 기본 크기에서 조금 더 줄임 */
+                height: auto;
+                max-height: 700px; /* 기본 높이보다 조금 더 낮게 설정 */
+                background-color: rgba(255, 255, 255, 0.7);
+                border-radius: 15px;
+                padding: 20px; /* padding을 줄여서 공간을 축소 */
+                overflow: hidden; /* 스크롤 없애기 */
+                display: none;
+                opacity: 0;
+                transition: opacity 2s ease-in;
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                z-index: 10;
+            }
+            
+            /* h1 스타일 */
+            .letter h1 {
+                font-size: 24px; /* 기본 크기에서 축소 */
+                margin-bottom: 8px; /* 문단 간 간격 더 줄임 */
+                color: #FF3366;
+            }
+            
+            /* p 태그 스타일 (문단 간 여백을 더 줄임) */
+            .letter p {
+                font-size: 16px; /* 글씨 크기 더 축소 */
+                color: #FF4D77;
+                font-weight: normal;
+                line-height: 1.4; /* 줄 간격 더 줄임 */
+                opacity: 0;
+                transition: opacity 1s ease-in;
+                margin-bottom: 1px; /* 문단 간 여백을 1px로 설정 */
+            }
+            
+            /* 화면 크기가 좁을 때의 설정 */
+            @media (max-width: 768px) {
+                .letter {
+                    width: 85%; /* 화면 너비의 85% */
+                    max-width: 480px; /* 최대 폭을 조금 더 줄임 */
+                    padding: 15px; /* padding을 더 줄여서 공간을 축소 */
+                }
+            
+                .letter h1 {
+                    font-size: 18px; /* 헤더 글씨 크기를 좀 더 축소 */
+                    margin-bottom: 6px;
+                }
+            
+                .letter p {
+                    font-size: 12px; /* 글씨 크기 더 줄임 */
+                    line-height: 1.3; /* 줄 간격을 더 좁게 설정 */
+                    margin-bottom: 2px; /* 문단 간 여백을 더 축소 */
+                }
+            }
+            
+            /* 더 작은 화면에서의 설정 */
+            @media (max-width: 480px) {
+                .letter {
+                    width: 90%; /* 화면 너비의 90% */
+                    max-width: 400px; /* 최대 폭을 더 축소 */
+                    padding: 10px; /* padding을 더 줄여서 공간을 최소화 */
+                }
+            
+                .letter h1 {
+                    font-size: 16px; /* 헤더 글씨 크기를 더 줄임 */
+                    margin-bottom: 5px;
+                }
+            
+                .letter p {
+                    font-size: 10px; /* 더 작게 설정 */
+                    line-height: 1.2; /* 줄 간격 더 좁게 */
+                    margin-bottom: 1px; /* 문단 간 여백을 1px로 더 축소 */
+                }
+            }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        @keyframes explodeEffect {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1; /* 애니메이션이 뒤로 가도록 설정 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="center">
+        <button id="battleButton" class="button">♥결투장♥</button>
+        <div class="label" id="label">이거 누르면 둘 중 하나가 죽을 때까지 싸우는거다</div>
+    </div>
+
+    <div id="letter" class="letter">
+        <h1>생일 축하해, 개능!</h1>
+        <p>미안하다 이거 보여주려고 어그로 끌었다</p>
+        <p>비행타입 가오리 왔니? 생일 선물은 없지만, 내 시간이라도 너한테 줄게. 이거라도 받아주라. 그리고 앞으로도 계속 친구해줘... 난 네가 정말 좋은 사람이라 생각해. 실제로도 난 너랑 노는 게 정말 즐거워. 그리고 네가 가진 에너지와 네 그림이 정말 좋아...
+        <br>내가 너랑 만났단 걸 나는 진짜 행운으로 여기고 있어. 함께 놀고 이야기할 상대가 있다는 건 정말 좋은거야. 난 지금껏 너와 함께 해 온 시간과 경험들이 너무너무 소중해 그러니절대로나를떠나지마라우리는우정아니면죽음뿐이야
+        <br><strong>나를봐너를위해손수깃허브페이지를파고HTML을파고CSS를쓰고자바스크립트를짜고5시간내내좃뺑이를쳤다이런나의정성을봐서강제도원결의를맺을것을요청한다거절할시너를죽이겠다 알겠지?</strong>
+        <br>오늘 하루도 잘 지내길 바라며 늘 행복하길 바랄게! 게다가 오늘은 1년에 단 한 번뿐인 생일이잖아!!!! 케이크 먹고 푸데푸데 개꿀잠 자!!!!!!!!!!!! </p>
+        <p>2024.12.28<br><strong>고라니</strong></p>
+    </div>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <script>
+        document.getElementById("battleButton").addEventListener("click", function() {
+            var button = document.getElementById("battleButton");
+            button.style.animation = "explodeEffect 2s ease-in-out forwards"; 
+
+            button.addEventListener("animationend", function() {
+                button.style.display = "none";
+                document.getElementById("label").style.display = "none";
+
+                // 2. 컨페티 효과
+                drawConfetti();
+
+                // 3. 편지 보이기 (서서히)
+                let letter = document.getElementById("letter");
+                letter.style.display = "block"; 
+                setTimeout(() => {
+                    letter.style.opacity = 1; 
+
+                    // 4. 문단별 글씨 서서히 나타나기
+                    let paragraphs = document.querySelectorAll("#letter p");
+                    paragraphs.forEach((para, index) => {
+                        setTimeout(() => {
+                            para.style.opacity = 1; 
+                        }, index * 1500); 
+                    });
+                }, 500); 
+            });
+        });
+
+        const canvas = document.getElementById("confettiCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confettiColors = ["#FF3366", "#FFC0CB", "#FFF", "#FF99CC", "#FF66B2"];
+        const confettiPieces = Array.from({ length: 100 }).map(() => ({
+            x: Math.random() * canvas.width,
+            y: -Math.random() * canvas.height,
+            size: Math.random() * 5 + 5,
+            color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+            speedX: Math.random() * 2 - 1,
+            speedY: Math.random() * 3 + 1,
+        }));
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            confettiPieces.forEach(piece => {
+                ctx.beginPath();
+                ctx.arc(piece.x, piece.y, piece.size, 0, Math.PI * 2);
+                ctx.fillStyle = piece.color;
+                ctx.fill();
+
+                piece.x += piece.speedX;
+                piece.y += piece.speedY;
+
+                if (piece.y > canvas.height) piece.y = -10;
+                if (piece.x > canvas.width || piece.x < 0) piece.x = Math.random() * canvas.width;
+            });
+
+            requestAnimationFrame(drawConfetti);
+        }
+    </script>
+</body>
+</html>

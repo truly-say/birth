@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결투장 버튼</title>
+    <style>
+        /* 버튼 클릭 시 애니메이션 */
+        @keyframes explodeEffect {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        .button {
+            font-size: 27px;
+            background-color: #FF1A66;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="battleButton" class="button">♥결투장♥</button>
+
+    <script>
+        // 버튼 클릭 시 동작
+        document.getElementById("battleButton").addEventListener("click", function() {
+            // 버튼 애니메이션 추가 (터지듯이 사라지도록)
+            this.style.animation = "explodeEffect 2s forwards"; // 버튼 클릭 시 애니메이션
+
+            // 2초 후 버튼을 완전히 숨김
+            setTimeout(() => {
+                this.style.display = "none"; // 버튼 숨기기
+            }, 2000); // 2초 후에 버튼을 숨기기
+        });
+    </script>
+</body>
+</html>
